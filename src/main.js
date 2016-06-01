@@ -2,21 +2,24 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Resource from 'vue-resource';
 import ProductListView from './components/ProductListView';
-import ReviewView from './components/ReviewView';
+import ProductView from './components/ProductView';
 import NotFoundView from './components/NotFoundView';
 import App from './App';
 
 Vue.use(Router);
 Vue.use(Resource);
+Vue.http.options.root = 'https://shopping-sab.herokuapp.com/api';
 
 export var router = new Router();
 
+// Named Router http://router.vuejs.org/en/named.html
 router.map({
-  '/product': {
+  '/products': {
     component: ProductListView
   },
-  '/review': {
-    component: ReviewView
+  '/product/:productId': {
+    name: 'product',
+    component: ProductView
   },
   '/404': {
     component: NotFoundView
