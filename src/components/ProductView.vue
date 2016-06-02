@@ -29,18 +29,19 @@
             <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" id="email" v-model="email">
+                <input type="email"  required class="form-control" id="email" v-model="email">
               </div>
             </div>
             <div class="form-group">
               <label for="comment" class="col-sm-2 control-label">Comment</label>
               <div class="col-sm-10">
-                <textarea class="form-control" rows="5" id="comment"
+                <textarea required class="form-control" rows="5" id="comment"
                 v-model="comment"></textarea>
               </div>
             </div>
             <button type="submit" class="btn btn-primary pull-right">Submit</button>
           </form>
+          <p class="sa-submit-status" v-show="submitStatus">{{submitStatus}}</p>
         </div>
       </div>
     </div>
@@ -57,11 +58,12 @@
   export default {
     data() {
       return {
-        email: '',
+        email: Auth.user.email,
         rating: 0,
         comment: '',
         isLoading: true,
         errorMessage: '',
+        submitStatus: '',
         product: null
       };
     },
@@ -71,6 +73,8 @@
     },
     methods: {
       onSubmit() {
+        this.errorMessage = null;
+        this.isLoading = true;
         var payload = {
           user_id: Auth.user.userId, //eslint-disable-line
           product_id: this.product.id, //eslint-disable-line
@@ -79,16 +83,24 @@
           email: this.email
         };
         Review.save(payload)
-          .then(data => {
-            console.log(data);
+          .then(() => {
+            this.submitStatus = 'Success! Redirecting to products page.';
+            setTimeout(() => {
+              this.$route.router.go('/products');
+            }, 2000);
           })
           .catch(e => {
-            console.log(e);
+            this.errorMessage = e.message;
+          })
+          .then(() => {
+            this.isLoading = false;
           });
       }
     },
     route: {
       activate() {
+        this.comment = '';
+        this.submitStatus = '';
         this.isLoading = true;
         this.product = null;
         var productId = this.$route.params.productId;
@@ -106,5 +118,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .sa-submit-status{
+    position: absolute;
+    right: 120px;
+  }
 </style>

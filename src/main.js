@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Resource from 'vue-resource';
+import WelcomeView from './components/WelcomeView';
 import ProductListView from './components/ProductListView';
 import ProductView from './components/ProductView';
 import NotFoundView from './components/NotFoundView';
@@ -14,6 +15,9 @@ export var router = new Router();
 
 // Named Router http://router.vuejs.org/en/named.html
 router.map({
+  '/': {
+    component: WelcomeView
+  },
   '/products': {
     component: ProductListView
   },
