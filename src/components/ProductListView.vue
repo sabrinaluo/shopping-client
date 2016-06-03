@@ -17,7 +17,6 @@
                   v-if="currentBrandId"
                   @click="clear()">Clear</button>
         </span>
-
       </div>
     </div>
   </div>
@@ -27,18 +26,21 @@
         <tr>
           <th>Product Name</th>
           <th>Brand Name</th>
-          <th>Price</th>
-          <th>Latest Comment</th>
-          <th></th>
+          <th class="sa-description">Description</th>
+          <th class="sa-review">Latest Review</th>
+          <th>Action</th>
         </tr>
         <tr v-for="product in products">
-          <td>{{product.product_name}}</td>
+          <td>{{product.name}}</td>
           <td>{{product.brand_name}}</td>
-          <td>{{product.price}}</td>
-          <td>{{product.comment}}</td>
+          <td>{{product.description}}</td>
+          <td class="sa-review">
+            <p>{{product.comment}}</p>
+            <p class="sa-review-user">Rating: {{product.rating}}, By {{product.username}}</p>
+          </td>
           <td>
             <a class="btn btn-primary btn-xs"
-               v-link="{name: 'product', params: {productId: product.product_id}}"
+               v-link="{name: 'product', params: {productId: product.id}}"
           >Add Review</a></td>
         </tr>
       </table>
@@ -65,9 +67,11 @@
       Loading,
       ErrorMessage
     },
-    ready() {
-      var brandId = this.$route.query.brand_id;
-      this.filterBrand(brandId);
+    route: {
+      activate() {
+        var brandId = this.$route.query.brand_id;
+        this.filterBrand(brandId);
+      }
     },
     methods: {
       filterBrand(brandId) {
@@ -93,7 +97,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.sa-filter{
-  padding-bottom: 10px;
-}
+  .sa-filter {
+    padding-bottom: 10px;
+  }
+  .sa-description{
+    max-width: 200px;
+  }
+  .sa-review{
+    max-width:200px;
+  }
+  .sa-review-user{
+    font-size:10px;
+  }
 </style>

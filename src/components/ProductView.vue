@@ -35,7 +35,7 @@
             <div class="form-group">
               <label for="comment" class="col-sm-2 control-label">Comment</label>
               <div class="col-sm-10">
-                <textarea required class="form-control" rows="5" id="comment"
+                <textarea required minlength="5" maxlength="200" class="form-control" rows="5" id="comment"
                 v-model="comment"></textarea>
               </div>
             </div>

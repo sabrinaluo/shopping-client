@@ -9,7 +9,7 @@ import App from './App';
 
 Vue.use(Router);
 Vue.use(Resource);
-Vue.http.options.root = 'https://shopping-sab.herokuapp.com/api';
+Vue.http.options.root = '/api';
 
 export var router = new Router();
 
